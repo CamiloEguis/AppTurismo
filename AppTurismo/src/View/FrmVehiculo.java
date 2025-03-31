@@ -5,9 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Model.TipoTransporte;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmVehiculo extends JFrame {
 
@@ -113,6 +118,15 @@ public class FrmVehiculo extends JFrame {
 		textPuestos.setColumns(10);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				TipoTransporte cr = new TipoTransporte();
+				cr.create(Integer.parseInt(textMatricula.getText()),Integer.parseInt(textPlaca.getText()),Integer.parseInt(textPuestos.getText()),textMarca.getText(), textModelo.getText(),textNumeroMotor.getText(),textCategoria.getText());
+				
+			}
+		});
 		btnGuardar.setBounds(274, 115, 89, 23);
 		contentPane.add(btnGuardar);
 	}

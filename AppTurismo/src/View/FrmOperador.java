@@ -5,9 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+
+import Model.OperadorClas;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmOperador extends JFrame {
 
@@ -113,6 +119,16 @@ public class FrmOperador extends JFrame {
 		textTelefono.setColumns(10);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				OperadorClas cr = new OperadorClas();
+				cr.create(Integer.parseInt(textTipoDocumento.getText()), Integer.parseInt(textDocumento.getText()),
+				textNombre.getText(), textApellido.getText(), textDireccion.getText(),textCorreo.getText(), textTelefono.getText());
+				
+			}
+		});
 		btnGuardar.setBounds(299, 102, 89, 23);
 		contentPane.add(btnGuardar);
 	}

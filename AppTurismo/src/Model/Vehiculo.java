@@ -1,5 +1,13 @@
 package Model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
+import Controller.Conexion;
+
 public class Vehiculo {
 	
 	public int matricula;
@@ -63,6 +71,37 @@ public class Vehiculo {
 		this.categoria = categoria;
 	}
 	
+Conexion conector = new Conexion();
+	
+	public void create(int matricula, int placa, String marca, int puestos, String modelo, String numeromotor,
+			String categoria) {
+		Connection dbConnection = null;
+		PreparedStatement pst = null; // preparar la trx
+
+		String script = "INSERT INTO tblvehiculo (matricula, placa, marca, puestos, modelo, numeromotor, categoria) values(?, ?, ?, ?, ?, ?, ?)";
+		try {
+			dbConnection = conector.conectarBD();
+			pst = dbConnection.prepareStatement(script);
+			// PARAMETRIZAR LOS CAMPOS
+			pst.setInt(1, matricula);
+			pst.setInt(2, placa);
+			pst.setString(3, marca);
+			pst.setInt(4, puestos);
+			pst.setString(5, modelo);
+			pst.setString(6, numeromotor);
+			pst.setString(7, categoria);
+			;
+			
+			// ejecutar la trx
+			pst.execute();
+			JOptionPane.showConfirmDialog(null, "Registro con exito");
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 	
 
 }
+}
+}
+
+
