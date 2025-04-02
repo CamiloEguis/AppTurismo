@@ -28,6 +28,9 @@ public class Vehiculo {
 		this.numeromotor = numeromotor;
 		this.categoria = categoria;
 	}
+	public Vehiculo() {
+	
+	}
 	public int getMatricula() {
 		return matricula;
 	}
@@ -73,7 +76,7 @@ public class Vehiculo {
 	
 Conexion conector = new Conexion();
 	
-	public void create(int matricula, int placa, String marca, int puestos, String modelo, String numeromotor,
+	public void create(int matricula, int placa, int puestos, String marca, String modelo, String numeromotor,
 			String categoria) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null; // preparar la trx
@@ -102,6 +105,46 @@ Conexion conector = new Conexion();
 
 }
 }
+	
+	public void delete(int matricula) {
+
+		Connection dbConnection = null;
+
+		PreparedStatement pst = null; //Preparar la trx
+
+		String script = "DELETE FROM tblvehiculo WHERE matricula = ?";
+
+		try {
+
+		dbConnection = conector.conectarBD(); //Abrir la conexión
+
+		pst = dbConnection.prepareStatement (script); //Abrir el buffer
+
+		//Parametrizar el campo
+
+		pst.setInt(1, matricula);
+
+		//Confirmar la operación
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registo No. "+ matricula + "?");
+
+		if (resp == JOptionPane.OK_OPTION) {
+
+		//Ejecutar la Trx
+
+		pst.executeUpdate();
+
+		JOptionPane.showConfirmDialog(null, "Registro No. "+matricula+" eliminado");
+
+		}
+
+		} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+		}
+	}
+	
 }
 
 

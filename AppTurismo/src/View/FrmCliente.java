@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import Model.ClienteClass;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -30,6 +31,9 @@ public class FrmCliente extends JFrame {
 	private JTextField textTelefonico;
 	private JTextField textCorreo;
 	private JTextField textDireccion;
+	private JButton btnEliminar;
+	private JLabel lblIdCliente;
+	private JTextField textIdCliente;
 
 	/**
 	 * Launch the application.
@@ -165,13 +169,40 @@ public class FrmCliente extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				ClienteClass cr = new ClienteClass();
-				cr.create(Integer.parseInt(textTipoDocumento.getText()),Integer.parseInt(textDocumento.getText()), textNombre.getText(), textApellidos.getText(), textEps.getText(),
+				cr.create(Integer.parseInt(textIdCliente.getText()),Integer.parseInt(textTipoDocumento.getText()),Integer.parseInt(textDocumento.getText()), textNombre.getText(), textApellidos.getText(), textEps.getText(),
 				textAlergias.getText(),textFechaNacimiento.getText(),textCorreo.getText(), textEstadoCivil.getText(), textDireccion.getText(),  textTelefonico.getText());
 			
 			}
 		});
 		btnRegistrar.setBounds(324, 105, 89, 23);
 		contentPane.add(btnRegistrar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdCliente.getText());
+		            ClienteClass obj = new ClienteClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(324, 159, 89, 23);
+		contentPane.add(btnEliminar);
+		
+		lblIdCliente = new JLabel("Id Cliente:");
+		lblIdCliente.setBounds(255, 59, 57, 14);
+		contentPane.add(lblIdCliente);
+		
+		textIdCliente = new JTextField();
+		textIdCliente.setBounds(324, 56, 86, 20);
+		contentPane.add(textIdCliente);
+		textIdCliente.setColumns(10);
 
 	}
 }

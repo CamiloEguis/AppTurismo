@@ -5,9 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Model.PaqueteClass;
+
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmPaquete extends JFrame {
 
@@ -21,6 +28,9 @@ public class FrmPaquete extends JFrame {
 	private JTextField textFechaEjecucion;
 	private JTextField textPrecio;
 	private JTextField textObservaciones;
+	private JLabel lblCodigo;
+	private JTextField textCodigo;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -123,8 +133,46 @@ public class FrmPaquete extends JFrame {
 		textObservaciones.setColumns(10);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				PaqueteClass cr = new PaqueteClass();
+				cr.create(Integer.parseInt(textCodigo.getText()),Integer.parseInt(textIdDestino.getText()), Integer.parseInt(textIdOrigen.getText()),
+					    textFechaVenta.getText(), textHoraVenta.getText(), textHoraSalida.getText(),
+					    textFechaEjecucion.getText(), textObservaciones.getText(), textPrecio.getText());
+
+			}
+		});
 		btnGuardar.setBounds(275, 99, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setBounds(10, 236, 46, 14);
+		contentPane.add(lblCodigo);
+		
+		textCodigo = new JTextField();
+		textCodigo.setBounds(114, 231, 86, 20);
+		contentPane.add(textCodigo);
+		textCodigo.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textCodigo.getText());
+		            PaqueteClass obj = new PaqueteClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(275, 149, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

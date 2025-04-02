@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 
 import Model.CompaniaClass;
 
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -25,6 +27,9 @@ public class FrmCompania extends JFrame {
 	private JTextField textRazonSocial;
 	private JTextField textTelefono;
 	private JTextField textWeb;
+	private JLabel lblIdCompania;
+	private JTextField textIdCompania;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -114,12 +119,39 @@ public class FrmCompania extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				CompaniaClass cr = new CompaniaClass();
-				cr.create(textRazonSocial.getText(), textDireccion.getText(), textCorreo.getText(), textTelefono.getText(), textFechaCreacion.getText(), textWeb.getText());
+				cr.create(Integer.parseInt(textIdCompania.getText()),textRazonSocial.getText(), textDireccion.getText(), textCorreo.getText(), textTelefono.getText(), textFechaCreacion.getText(), textWeb.getText());
 
 			}
 		});
 		btnGuardar.setBounds(272, 102, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		lblIdCompania = new JLabel("Id Compania:");
+		lblIdCompania.setBounds(241, 30, 73, 14);
+		contentPane.add(lblIdCompania);
+		
+		textIdCompania = new JTextField();
+		textIdCompania.setBounds(320, 27, 86, 20);
+		contentPane.add(textIdCompania);
+		textIdCompania.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdCompania.getText());
+		            CompaniaClass obj = new CompaniaClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+		
+		btnEliminar.setBounds(272, 157, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import Model.TipoTransporte;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -22,6 +23,7 @@ public class FrmTipoTransporte extends JFrame {
 	private JTextField textNombre;
 	private JTextField textObservacion;
 	private JTextField textIdTipo;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -89,5 +91,23 @@ public class FrmTipoTransporte extends JFrame {
 		textIdTipo.setBounds(175, 32, 86, 20);
 		contentPane.add(textIdTipo);
 		textIdTipo.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdTipo.getText());
+		            TipoTransporte obj = new TipoTransporte();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(301, 139, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 }

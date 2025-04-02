@@ -10,6 +10,7 @@ import Controller.Conexion;
 
 public class TipoTransporte {
 	
+	public int idtipo;
 	public String nombre;
 	public String observacion;
 	public TipoTransporte(int idtipo, String nombre, String observacion) {
@@ -20,8 +21,17 @@ public class TipoTransporte {
 	}
 	
 	public TipoTransporte() {
-		super();
+		super();	
+		
 	}
+	public int getIdtipo() {
+		return idtipo;
+	}
+
+	public void setIdtipo(int idtipo) {
+		this.idtipo = idtipo;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -61,4 +71,44 @@ Conexion conector = new Conexion();
 
 }
 }
+	
+	public void delete(int idtipo) {
+
+		Connection dbConnection = null;
+
+		PreparedStatement pst = null; //Preparar la trx
+
+		String script = "DELETE FROM tbltipotransporte WHERE idtipo = ?";
+
+		try {
+
+		dbConnection = conector.conectarBD(); //Abrir la conexión
+
+		pst = dbConnection.prepareStatement (script); //Abrir el buffer
+
+		//Parametrizar el campo
+
+		pst.setInt(1, idtipo);
+
+		//Confirmar la operación
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registo No. "+ idtipo + "?");
+
+		if (resp == JOptionPane.OK_OPTION) {
+
+		//Ejecutar la Trx
+
+		pst.executeUpdate();
+
+		JOptionPane.showConfirmDialog(null, "Registro No. "+idtipo+" eliminado");
+
+		}
+
+		} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+		}
+	}
+	
 }

@@ -8,7 +8,9 @@ import javax.swing.border.EmptyBorder;
 
 import Model.MedioClass;
 
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -20,7 +22,8 @@ public class FrmMedio extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNombre;
 	private JTextField textObservaciones;
-	private JTextField textIdTipoMedio;
+	private JTextField textIdMedio;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -74,7 +77,7 @@ public class FrmMedio extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				MedioClass medio = new MedioClass();
-				medio.createMedio(textNombre.getText(), textObservaciones.getText(), Integer.parseInt(textIdTipoMedio.getText()));
+				medio.createMedio(textNombre.getText(), textObservaciones.getText(), Integer.parseInt(textIdMedio.getText()));
 
 				
 			}
@@ -82,14 +85,33 @@ public class FrmMedio extends JFrame {
 		btnGuardar.setBounds(282, 106, 89, 23);
 		contentPane.add(btnGuardar);
 		
-		JLabel lblIdTipoMedio = new JLabel("Id Tipo Medio:");
-		lblIdTipoMedio.setBounds(54, 188, 83, 14);
-		contentPane.add(lblIdTipoMedio);
+		JLabel lblIdMedio = new JLabel("Id Medio:");
+		lblIdMedio.setBounds(54, 188, 83, 14);
+		contentPane.add(lblIdMedio);
 		
-		textIdTipoMedio = new JTextField();
-		textIdTipoMedio.setBounds(147, 185, 86, 20);
-		contentPane.add(textIdTipoMedio);
-		textIdTipoMedio.setColumns(10);
+		textIdMedio = new JTextField();
+		textIdMedio.setBounds(147, 185, 86, 20);
+		contentPane.add(textIdMedio);
+		textIdMedio.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			
+			
+			try {
+	            int id = Integer.parseInt(textIdMedio.getText());
+	            MedioClass obj = new MedioClass();
+	            obj.delete(id);
+	        } catch (NumberFormatException ex) {
+	            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	}});
+			
+		
+		btnEliminar.setBounds(282, 165, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

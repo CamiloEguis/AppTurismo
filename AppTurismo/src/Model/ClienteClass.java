@@ -10,6 +10,7 @@ import Controller.Conexion;
 
 public class ClienteClass {
 
+	public int idcliente;	
 	public int tipodocumento;
 	public int documento;
 	public String nombre;
@@ -21,10 +22,11 @@ public class ClienteClass {
 	public String estadocivil;
 	public String direccion;
 	public String telefonico;
-	public ClienteClass(int tipodocumento, int documento, String nombre, String apellidos, String eps,
+	public ClienteClass(int idcliente, int tipodocumento, int documento, String nombre, String apellidos, String eps,
 			String alergias, String fechanacimiento, String correo, String estadocivil, String direccion, String telefonico) {
 		super();
 		
+		this.idcliente = idcliente;
 		this.tipodocumento = tipodocumento;
 		this.documento = documento;
 		this.nombre = nombre;
@@ -39,7 +41,13 @@ public class ClienteClass {
 	
 	}
 	public ClienteClass() {
-		
+	}
+	
+	public int getIdcliente() {
+		return idcliente;
+	}
+	public void setIdcliente(int idcliente) {
+		this.idcliente = idcliente;
 	}
 	public int getTipodocumento() {
 		return tipodocumento;
@@ -111,27 +119,28 @@ public class ClienteClass {
 
 	Conexion conector = new Conexion();
 
-	public void create(int tipodocumento, int documento, String nombre, String apellidos, String eps,
+	public void create(int idcliente, int tipodocumento, int documento, String nombre, String apellidos, String eps,
 			String alergias, String fechanacimiento, String correo, String estadocivil, String direccion, String telefonico) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null; // preparar la trx
 
-		String script = "INSERT INTO tblcliente (tipodocumento, documento, nombre, apellidos, eps, alergias, fechanacimiento, correo, estadocivil, direccion, telefonico) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String script = "INSERT INTO tblcliente (idcliente, tipodocumento, documento, nombre, apellidos, eps, alergias, fechanacimiento, correo, estadocivil, direccion, telefonico) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			dbConnection = conector.conectarBD();
 			pst = dbConnection.prepareStatement(script);
 			// PARAMETRIZAR LOS CAMPOS
-			pst.setInt(1, tipodocumento);
-			pst.setInt(2, documento);
-			pst.setString(3, nombre);
-			pst.setString(4, apellidos);
-			pst.setString(5, eps);
-			pst.setString(6, alergias);
-			pst.setString(7, fechanacimiento);
-			pst.setString(8, correo);
-			pst.setString(9, estadocivil);
-			pst.setString(10, direccion);
-			pst.setString(11, telefonico);
+			pst.setInt(1, idcliente);
+			pst.setInt(2, tipodocumento);
+			pst.setInt(3, documento);
+			pst.setString(4, nombre);
+			pst.setString(5, apellidos);
+			pst.setString(6, eps);
+			pst.setString(7, alergias);
+			pst.setString(8, fechanacimiento);
+			pst.setString(9, correo);
+			pst.setString(10, estadocivil);
+			pst.setString(11, direccion);
+			pst.setString(12, telefonico);
 			
 			
 			// ejecutar la trx
@@ -143,4 +152,44 @@ public class ClienteClass {
 	
 		}
 	}
+	
+	public void delete(int idcliente) {
+
+		Connection dbConnection = null;
+
+		PreparedStatement pst = null; //Preparar la trx
+
+		String script = "DELETE FROM tblcliente WHERE idcliente = ?";
+
+		try {
+
+		dbConnection = conector.conectarBD(); //Abrir la conexión
+
+		pst = dbConnection.prepareStatement (script); //Abrir el buffer
+
+		//Parametrizar el campo
+
+		pst.setInt(1, idcliente);
+
+		//Confirmar la operación
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registo No. "+ idcliente + "?");
+
+		if (resp == JOptionPane.OK_OPTION) {
+
+		//Ejecutar la Trx
+
+		pst.executeUpdate();
+
+		JOptionPane.showConfirmDialog(null, "Registro No. "+idcliente+" eliminado");
+
+		}
+
+		} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+		}
+	}
+	
 }

@@ -5,9 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Model.PromotoresClass;
+
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmPromotores extends JFrame {
 
@@ -22,6 +29,9 @@ public class FrmPromotores extends JFrame {
 	private JTextField textDocumento;
 	private JTextField textTelefono;
 	private JTextField textDireccion;
+	private JLabel lblIdPromotor;
+	private JTextField textIdPromotor;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -133,8 +143,43 @@ public class FrmPromotores extends JFrame {
 		textDireccion.setColumns(10);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				PromotoresClass cr = new PromotoresClass();
+				cr.create(Integer.parseInt(textIdPromotor.getText()),textNombre.getText(), textApellido.getText(),textTipoDocumento.getText(),Integer.parseInt(textDocumento.getText()),
+						textDireccion.getText(), textCorreoPers.getText(), textCorreoCorp.getText(), textFechaNacimiento.getText(), textTelefono.getText());
+			}
+		});
 		btnGuardar.setBounds(291, 120, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		lblIdPromotor = new JLabel("Id Promotor:");
+		lblIdPromotor.setBounds(232, 24, 74, 14);
+		contentPane.add(lblIdPromotor);
+		
+		textIdPromotor = new JTextField();
+		textIdPromotor.setBounds(324, 21, 86, 20);
+		contentPane.add(textIdPromotor);
+		textIdPromotor.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdPromotor.getText());
+		            PromotoresClass obj = new PromotoresClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+			
+		btnEliminar.setBounds(291, 170, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import Model.TipoMedioClass;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -20,6 +21,7 @@ public class FrmTipoMedio extends JFrame {
 	private JPanel contentPane;
 	private JTextField textNombre;
 	private JTextField textObservacion;
+	private JTextField textIdTipoMedio;
 
 	/**
 	 * Launch the application.
@@ -73,11 +75,36 @@ public class FrmTipoMedio extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				TipoMedioClass cr = new TipoMedioClass();
-				cr.create(textNombre.getText(), textObservacion.getText());
+				cr.create(Integer.parseInt(textIdTipoMedio.getText()),textNombre.getText(), textObservacion.getText());
 			}
 		});
 		btnGuardar.setBounds(301, 121, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdTipoMedio.getText());
+		            TipoMedioClass obj = new TipoMedioClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+			
+		btnEliminar.setBounds(301, 189, 89, 23);
+		contentPane.add(btnEliminar);
+		
+		JLabel lblIdTipoMedio = new JLabel("Id Tipo Medio:");
+		lblIdTipoMedio.setBounds(52, 35, 72, 14);
+		contentPane.add(lblIdTipoMedio);
+		
+		textIdTipoMedio = new JTextField();
+		textIdTipoMedio.setBounds(183, 32, 86, 20);
+		contentPane.add(textIdTipoMedio);
+		textIdTipoMedio.setColumns(10);
 	}
-
 }

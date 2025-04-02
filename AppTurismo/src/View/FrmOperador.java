@@ -9,7 +9,9 @@ import javax.swing.border.EmptyBorder;
 
 import Model.OperadorClas;
 
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -26,6 +28,9 @@ public class FrmOperador extends JFrame {
 	private JTextField textCorreo;
 	private JTextField textDireccion;
 	private JTextField textTelefono;
+	private JLabel lblIdOperador;
+	private JTextField textIdOperador;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -124,13 +129,40 @@ public class FrmOperador extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				
 				OperadorClas cr = new OperadorClas();
-				cr.create(Integer.parseInt(textTipoDocumento.getText()), Integer.parseInt(textDocumento.getText()),
+				cr.create(Integer.parseInt(textIdOperador.getText()),Integer.parseInt(textTipoDocumento.getText()), Integer.parseInt(textDocumento.getText()),
 				textNombre.getText(), textApellido.getText(), textDireccion.getText(),textCorreo.getText(), textTelefono.getText());
 				
 			}
 		});
 		btnGuardar.setBounds(299, 102, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		lblIdOperador = new JLabel("Id Operador:");
+		lblIdOperador.setBounds(10, 212, 77, 14);
+		contentPane.add(lblIdOperador);
+		
+		textIdOperador = new JTextField();
+		textIdOperador.setBounds(93, 209, 86, 20);
+		contentPane.add(textIdOperador);
+		textIdOperador.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdOperador.getText());
+		            OperadorClas obj = new OperadorClas();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(299, 152, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

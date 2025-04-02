@@ -94,4 +94,43 @@ public class AgenciasClass {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public void delete(int idagencia) {
+
+		Connection dbConnection = null;
+
+		PreparedStatement pst = null; //Preparar la trx
+
+		String script = "DELETE FROM tblagencias WHERE idagencia = ?";
+
+		try {
+
+		dbConnection = conector.conectarBD(); //Abrir la conexión
+
+		pst = dbConnection.prepareStatement (script); //Abrir el buffer
+
+		//Parametrizar el campo
+
+		pst.setInt(1, idagencia);
+
+		//Confirmar la operación
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registo No. "+ idagencia + "?");
+
+		if (resp == JOptionPane.OK_OPTION) {
+
+		//Ejecutar la Trx
+
+		pst.executeUpdate();
+
+		JOptionPane.showConfirmDialog(null, "Registro No. "+idagencia+" eliminado");
+
+		}
+
+		} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+		}
+	}
 }

@@ -8,8 +8,10 @@ import javax.swing.border.EmptyBorder;
 
 import Model.AgenciasClass;
 
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,6 +26,7 @@ public class FrmAgencias extends JFrame {
 	private JTextField textNombre;
 	private JTextField textTelefono;
 	private JTextField textWeb;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -118,5 +121,23 @@ public class FrmAgencias extends JFrame {
 		});
 		btnGuardar.setBounds(291, 117, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textIdAgencia.getText());
+		            AgenciasClass obj = new AgenciasClass();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(291, 169, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 }

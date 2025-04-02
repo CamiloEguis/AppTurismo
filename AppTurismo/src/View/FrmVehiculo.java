@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Model.TipoTransporte;
+
+import Model.Vehiculo;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -25,6 +27,7 @@ public class FrmVehiculo extends JFrame {
 	private JTextField textPlaca;
 	private JTextField textNumeroMotor;
 	private JTextField textPuestos;
+	private JButton btnEliminar;
 
 	/**
 	 * Launch the application.
@@ -122,13 +125,31 @@ public class FrmVehiculo extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				TipoTransporte cr = new TipoTransporte();
+				Vehiculo cr = new Vehiculo();
 				cr.create(Integer.parseInt(textMatricula.getText()),Integer.parseInt(textPlaca.getText()),Integer.parseInt(textPuestos.getText()),textMarca.getText(), textModelo.getText(),textNumeroMotor.getText(),textCategoria.getText());
 				
 			}
 		});
 		btnGuardar.setBounds(274, 115, 89, 23);
 		contentPane.add(btnGuardar);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				try {
+		            int id = Integer.parseInt(textMatricula.getText());
+		            Vehiculo obj = new Vehiculo();
+		            obj.delete(id);
+		        } catch (NumberFormatException ex) {
+		            JOptionPane.showMessageDialog(null, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		}});
+				
+			
+		btnEliminar.setBounds(274, 151, 89, 23);
+		contentPane.add(btnEliminar);
 	}
 
 }

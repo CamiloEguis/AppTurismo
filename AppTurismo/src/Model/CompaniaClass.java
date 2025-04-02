@@ -10,13 +10,14 @@ import Controller.Conexion;
 
 public class CompaniaClass {
 
+	public int idcompania;
 	public String razonsocial;
 	public String direccion;
 	public String telefono; 
 	public String fechacreacion; 
 	public String correo;
 	public String web;
-	public CompaniaClass(String razonsocial, String direccion, String telefono, String fechacreacion,
+	public CompaniaClass(int idcompania, String razonsocial, String direccion, String telefono, String fechacreacion,
 			String correo, String web) {
 		super();
 		this.razonsocial = razonsocial;
@@ -29,6 +30,12 @@ public class CompaniaClass {
 	}
 	public CompaniaClass(){
 		
+	}
+	public int getIdcompania() {
+		return idcompania;
+	}
+	public void setIdcompania(int idcompania) {
+		this.idcompania = idcompania;
 	}
 	public String getRazonsocial() {
 		return razonsocial;
@@ -69,20 +76,21 @@ public class CompaniaClass {
 	
 	Conexion conector = new Conexion();
 
-	public void create(String razonsocial, String direccion, String correo, String telefono, String fechacreacion, String web) {
+	public void create(int idcompania, String razonsocial, String direccion, String correo, String telefono, String fechacreacion, String web) {
 		Connection dbConnection = null;
 		PreparedStatement pst = null;
 
-		String script = "INSERT INTO tblcompania (razonsocial, direccion, correo, telefono, fechacreacion, web) values(?, ?, ?, ?, ?, ?)";
+		String script = "INSERT INTO tblcompania (idcompania, razonsocial, direccion, correo, telefono, fechacreacion, web) values(?, ?, ?, ?, ?, ?)";
 		try {
 			dbConnection = conector.conectarBD();
 			pst = dbConnection.prepareStatement(script);
-			pst.setString(1, razonsocial);
-			pst.setString(2, direccion);
-			pst.setString(3, correo);
-			pst.setString(4, telefono);
-			pst.setString(5, fechacreacion);
-			pst.setString(6, web);
+			pst.setInt(1, idcompania);
+			pst.setString(2, razonsocial);
+			pst.setString(3, direccion);
+			pst.setString(4, correo);
+			pst.setString(5, telefono);
+			pst.setString(6, fechacreacion);
+			pst.setString(7, web);
 			pst.execute();
 			JOptionPane.showConfirmDialog(null, "Registro con exito");
 
@@ -91,4 +99,45 @@ public class CompaniaClass {
 		}
 	
 	}
+	
+
+	public void delete(int idcompania) {
+
+		Connection dbConnection = null;
+
+		PreparedStatement pst = null; //Preparar la trx
+
+		String script = "DELETE FROM tblcompania WHERE idcompania = ?";
+
+		try {
+
+		dbConnection = conector.conectarBD(); //Abrir la conexión
+
+		pst = dbConnection.prepareStatement (script); //Abrir el buffer
+
+		//Parametrizar el campo
+
+		pst.setInt(1,idcompania);
+
+		//Confirmar la operación
+
+		int resp = JOptionPane.showConfirmDialog(null, "¿Desea eliminar el registo No. "+ idcompania + "?");
+
+		if (resp == JOptionPane.OK_OPTION) {
+
+		//Ejecutar la Trx
+
+		pst.executeUpdate();
+
+		JOptionPane.showConfirmDialog(null, "Registro No. "+idcompania+" eliminado");
+
+		}
+
+		} catch (SQLException e) {
+
+		System.out.println(e.getMessage());
+
+		}
+	}
+	
 }
